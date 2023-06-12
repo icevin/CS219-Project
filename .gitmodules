@@ -1,0 +1,3 @@
+[submodule "inference/transformers"]
+	path = inference/transformers
+	url = https://github.com/huggingface/transformers.git
