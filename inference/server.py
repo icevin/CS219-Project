@@ -7,7 +7,7 @@ import logging
 import io
 
 
-DEVICE_STRING = "mps"
+DEVICE_STRING = "cuda"
 
 os.environ['YOLO_MODE'] = 'SERVER'
 os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1'
@@ -26,6 +26,9 @@ class YOLORequestHandler(BaseHTTPRequestHandler):
         logging.info("GET request,\nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
         self._set_response()
         self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
+
+    def log_message(self, format, *args):
+        return
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
