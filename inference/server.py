@@ -34,7 +34,8 @@ class YOLORequestHandler(BaseHTTPRequestHandler):
         self._set_response()
         buff.seek(0)
         input_object = torch.load(buff, map_location=DEVICE_STRING)
-        result = server_model(None, input_embeddings=input_object, p_height=512, p_width=682)
+        embedd = input_object.type(torch.float32)
+        result = server_model(None, input_embeddings=embedd, p_height=512, p_width=682)
 
         buffer = io.BytesIO()
         torch.save(result, buffer)

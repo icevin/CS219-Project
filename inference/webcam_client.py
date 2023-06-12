@@ -38,7 +38,8 @@ def pred(image):
 
     server_inputs = outputs
 
-    # "Quantization": TODO
+    # "Quantization"
+    server_inputs = outputs.type(torch.float16)
 
     buff = io.BytesIO()
     torch.save(server_inputs, buff)
