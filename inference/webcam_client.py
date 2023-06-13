@@ -10,7 +10,7 @@ import io
 import time
 
 DEVICE_STRING = "cpu"
-URL = "http://172.91.168.179:80/"
+URL = "http://localhost:8080/"
 
 
 def pil_to_cv2(pil_image):
@@ -32,7 +32,7 @@ def pred(image):
     image = Image.fromarray(image)
     inputs = image_processor(images=image, return_tensors="pt").to(device=DEVICE_STRING)
 
-    pixel_values = inputs["pixel_values"]
+    # pixel_values = inputs["pixel_values"]
     # p_height=pixel_values.shape[-2]
     # p_width=pixel_values.shape[-1]
     # print(p_height, p_width)
@@ -110,7 +110,7 @@ def main():
             t = time.monotonic()
             annotated_image = pred(img)
             new_time = time.monotonic()
-            fps = 1 / (new_time - t)
+            fps = 1.0 / (new_time - t)
             cv2.putText(
                 annotated_image,
                 f"{fps:.1f}",
