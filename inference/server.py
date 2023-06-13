@@ -10,6 +10,7 @@ import io
 DEVICE_STRING = "mps"
 
 os.environ['YOLO_MODE'] = 'SERVER'
+os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = '1'
 server_model = YolosForObjectDetection.from_pretrained("hustvl/yolos-tiny").to(device=DEVICE_STRING)
 
 
