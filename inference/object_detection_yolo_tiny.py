@@ -62,6 +62,14 @@ class Detection:
         return a_img
 
 
+import time
+font = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (0, 480)
+fontScale = 1
+fontColor = (255, 255, 255)
+thickness = 1
+lineType = 2
+
 def main():
     device = DEVICE_STRING if torch.backends.mps.is_available() else "cpu"
     print(f"Using device: {device}")
@@ -70,13 +78,27 @@ def main():
     cam_feed = cv2.VideoCapture(1)
     cam_feed.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cam_feed.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    t = time.monotonic()
     while True:
         ret, img = cam_feed.read()
         if img is not None:
             annotated_image = a.pred(img)
+            new_time = time.monotonic()
+            fps = 1.0 / (new_time - t)
+            t = new_time
+            cv2.putText(
+                annotated_image,
+                f"{fps:.1f}",
+                bottomLeftCornerOfText,
+                font,
+                fontScale,
+                fontColor,
+                thickness,
+                lineType,
+            )
             cv2.imshow("", annotated_image)
 
-        if (cv2.waitKey(1) & 0xFF == ord("q")) or (cv2.waitKey(1) == 27):
+        if (cv2.waitKey(50) & 0xFF == ord("q")) or (cv2.waitKey(50) == 27):
             break
 
     cam_feed.release()
